@@ -20,13 +20,13 @@ function gif() {
 		echo "Encoding $input_file"
 	fi
 
-	# Convert to gif using ffmpeg
-	# ffmpeg -i "$input_file" -pix_fmt rgb24 -loglevel error "${input_file%.*}.gif"
 	# Generate a reduced color palette with scaled resolution
 	ffmpeg -i "$input_file" -vf "fps=20,scale=500:-1:flags=lanczos,palettegen" -loglevel error -y palette.png
 
 	# Create the GIF using the palette, scaled resolution, and adjusted FPS
-	ffmpeg -y -i "$input_file" -i palette.png -filter_complex "fps=20,scale=1000:-1:flags=lanczos[x];[x][1:v]paletteuse" -loglevel error "${input_file%.*}.gif"
+	# ffmpeg -y -i "$input_file" -i palette.png -filter_complex "fps=20,scale=500:-1:flags=lanczos[x];[x][1:v]paletteuse" -loglevel error "${input_file%.*}.gif"
+	ffmpeg -y -i "$input_file" -i palette.png -filter_complex "fps=20,scale=750:-1:flags=lanczos[x];[x][1:v]paletteuse" -loglevel error "${input_file%.*}.gif"
+
 
 	# Print the clickable output file path
 	output_path="${input_file%.*}.gif"

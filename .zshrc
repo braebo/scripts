@@ -127,15 +127,11 @@ alias ts="pnpx typesync"
 alias ta="trash pnpm-lock.yaml node_modules .svelte-kit"
 alias vercel-logs='vercel logs "$(vercel ls | grep -o "^[^ ]*" | head -1)" -f'
 
-# alias vercel-tail='vercel list > /dev/tty && vercel logs "$(vercel list | grep -o "https://[^ ]*" | head -1)" -f'
+# List vercel deployments and tail the latest one.
 function vercel-tail() {
   echo -e "\033[0;35mLatest vercel deployment logs\n\033[0m"
-  vercel list  # This will display the output with colors
-
-  # Capture the output of `vercel list`, silence stderr, and parse the URL
+  vercel list
   url=$(vercel list 2>/dev/null | grep -o 'https://[^ ]*' | head -1)
-
-  # Use the captured URL for vercel logs
   vercel logs "$url" -f
 }
 
@@ -286,10 +282,6 @@ eval "$($HOME/Library/pnpm/github-copilot-cli alias -- "$0")"
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Autojump
-[[ -s $HOME/.autojump/etc/profile.d/autojump.sh ]] && source $HOME/.autojump/etc/profile.d/autojump.sh
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 # tabtab source for packages
 # uninstall by removing these lines
